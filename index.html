@@ -30,7 +30,12 @@
         <nav class="navbar  navbar-dark  fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand col-1 " href="#"><img src="img/logoo.png" alt="logo" class="img-fluid"></a>
-
+                <a
+                href="javascript:void()"
+                class="btn btn-outline-info btn-lg ml-auto font-weight-bold"
+                id="theme-toggler"
+                onclick="toggleTheme()"
+        ></a>
 
 
 
@@ -686,7 +691,55 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../assets/js/tracking.js"></script>
-    
+    <script>
+        function update(e){
+	var x = e.clientX || e.touches[0].clientX
+	var y = e.clientY || e.touches[0].clientY
+  
+	document.documentElement.style.setProperty('--cursorX', x + 'px')
+	document.documentElement.style.setProperty('--cursorY', y + 'px')
+  }
+  
+  document.addEventListener('mousemove',update)
+  document.addEventListener('touchmove',update)
+
+  // you can use app's unique identifier here
+const LOCAL_STORAGE_KEY = "toggle-bootstrap-theme";
+const LOCAL_META_DATA = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+// you can change this url as needed
+const DARK_THEME_PATH = "https://bootswatch.com/4/cyborg/bootstrap.min.css";
+const DARK_STYLE_LINK = document.getElementsByTagName("html");
+const THEME_TOGGLER = document.getElementById("theme-toggler");
+let isDark = LOCAL_META_DATA && LOCAL_META_DATA.isDark;
+// check if user has already selected dark theme earlier
+if (isDark) {
+  enableDarkTheme();
+} else {
+  disableDarkTheme();
+}
+/**
+ * Apart from toggling themes, this will also store user's theme preference in local storage.
+ * So when user visits next time, we can load the same theme.
+ *
+ */
+function toggleTheme() {
+  isDark = !isDark;
+  if (isDark) {
+    enableDarkTheme();
+  } else {
+    disableDarkTheme();
+  }
+  const META = { isDark };
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(META));
+}
+function enableDarkTheme() {
+    $("html").addClass("night");
+}
+function disableDarkTheme() {
+    $("html").removeClass("night");
+
+}
+    </script>
 </body>
 
 </html>
